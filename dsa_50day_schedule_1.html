@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>50-Day DSA Schedule — John</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e10;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: #2a2a35;
+    --accent: #7c6af7;
+    --accent2: #4fc9a4;
+    --amber: #f0a04b;
+    --coral: #e8614f;
+    --green: #6ec97a;
+    --muted: #5a5a72;
+    --text: #e8e8f0;
+    --text2: #a0a0be;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+  }
+
+  /* ── header ── */
+  header {
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .title-block h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .title-block h1 span { color: var(--accent); }
+  .title-block p {
+    margin-top: .4rem;
+    font-size: .85rem;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .hstat {
+    text-align: right;
+  }
+  .hstat-val {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--mono);
+    color: var(--accent);
+  }
+  .hstat-label {
+    font-size: .7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  /* ── progress bar ── */
+  .progress-wrap {
+    max-width: 1200px;
+    margin: 1.5rem auto 0;
+    padding: 0 2rem;
+  }
+  .progress-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 99px;
+    transition: width .5s ease;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .4rem;
+    font-size: .7rem;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  /* ── filters ── */
+  .controls {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: .6rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .controls-label {
+    font-size: .7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-family: var(--mono);
+    margin-right: .4rem;
+  }
+
+  .pill {
+    font-size: .72rem;
+    padding: .35rem .9rem;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: var(--mono);
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--text); }
+  .pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ── today jump ── */
+  .today-btn {
+    margin-left: auto;
+    font-size: .72rem;
+    padding: .35rem 1rem;
+    border-radius: 99px;
+    border: 1px solid var(--accent2);
+    background: transparent;
+    color: var(--accent2);
+    cursor: pointer;
+    font-family: var(--mono);
+    transition: all .15s;
+  }
+  .today-btn:hover { background: var(--accent2); color: var(--bg); }
+
+  /* ── legend ── */
+  .legend {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 1.5rem;
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .leg { display: flex; align-items: center; gap: .4rem; font-size: .72rem; color: var(--muted); font-family: var(--mono); }
+  .leg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── grid ── */
+  .grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+  }
+
+  /* ── card ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem;
+    transition: border-color .2s, transform .15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover { border-color: #3a3a50; transform: translateY(-1px); }
+  .card.hidden { display: none; }
+
+  /* stage accent strip */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 12px 0 0 12px;
+  }
+  .card.trees::before { background: #378ADD; }
+  .card.graphs::before { background: var(--accent); }
+  .card.dp::before { background: var(--coral); }
+  .card.greedy::before { background: var(--green); }
+  .card.backtrack::before { background: var(--amber); }
+  .card.rest::before { background: var(--accent2); }
+
+  /* today highlight */
+  .card.today-card {
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 1px var(--accent2);
+  }
+  .card.today-card::after {
+    content: '◉ TODAY';
+    position: absolute;
+    top: .8rem; right: .8rem;
+    font-size: .6rem;
+    color: var(--accent2);
+    font-family: var(--mono);
+    letter-spacing: .1em;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* past day dimming */
+  .card.past { opacity: .5; }
+  .card.past:hover { opacity: .75; }
+
+  /* card top row */
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: .75rem;
+    gap: .5rem;
+  }
+
+  .day-info {}
+  .day-num {
+    font-size: .65rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: .05em;
+    margin-bottom: 1px;
+  }
+  .day-date {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+  }
+  .day-weekday {
+    font-size: .72rem;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .badge {
+    font-size: .62rem;
+    padding: .25rem .7rem;
+    border-radius: 99px;
+    font-family: var(--mono);
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: .15rem;
+  }
+  .badge-trees { background: rgba(55,138,221,.15); color: #378ADD; border: 1px solid rgba(55,138,221,.3); }
+  .badge-graphs { background: rgba(124,106,247,.15); color: var(--accent); border: 1px solid rgba(124,106,247,.3); }
+  .badge-dp { background: rgba(232,97,79,.15); color: var(--coral); border: 1px solid rgba(232,97,79,.3); }
+  .badge-greedy { background: rgba(110,201,122,.15); color: var(--green); border: 1px solid rgba(110,201,122,.3); }
+  .badge-backtrack { background: rgba(240,160,75,.15); color: var(--amber); border: 1px solid rgba(240,160,75,.3); }
+  .badge-rest { background: rgba(79,201,164,.15); color: var(--accent2); border: 1px solid rgba(79,201,164,.3); }
+
+  /* video resources */
+  .videos-section {
+    margin-top: .75rem;
+    border-top: 1px solid var(--border);
+    padding-top: .6rem;
+  }
+  .videos-toggle {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    cursor: pointer;
+    font-size: .7rem;
+    font-family: var(--mono);
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    background: none;
+    border: none;
+    padding: 0;
+    user-select: none;
+  }
+  .videos-toggle:hover { color: var(--text); }
+  .videos-toggle .arrow { transition: transform .2s; display: inline-block; }
+  .videos-toggle.open .arrow { transform: rotate(90deg); }
+  .videos-list {
+    display: none;
+    flex-direction: column;
+    gap: .3rem;
+    margin-top: .5rem;
+  }
+  .videos-list.open { display: flex; }
+  .vid-link {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .72rem;
+    font-family: var(--mono);
+    color: var(--text2);
+    text-decoration: none;
+    padding: .25rem .4rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all .15s;
+  }
+  .vid-link:hover {
+    color: var(--accent2);
+    border-color: var(--accent2);
+    background: rgba(79,201,164,.06);
+  }
+  .vid-link .vid-icon { font-size: .85rem; flex-shrink: 0; }
+  .vid-label { flex: 1; line-height: 1.3; }
+  .vid-src {
+    font-size: .62rem;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  /* problems list */
+  .problems {
+    margin-bottom: .75rem;
+  }
+  .prob-item {
+    font-size: .78rem;
+    color: var(--text2);
+    font-family: var(--mono);
+    padding: .22rem 0;
+    border-bottom: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    cursor: pointer;
+    transition: color .12s;
+  }
+  .prob-item:hover { color: var(--text); }
+  .prob-item.done { color: var(--muted); text-decoration: line-through; }
+  .prob-item.done .check { color: var(--accent2); }
+  .check {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .55rem;
+    color: transparent;
+    transition: all .15s;
+  }
+  .prob-item.done .check {
+    background: var(--accent2);
+    border-color: var(--accent2);
+    color: var(--bg);
+  }
+
+  /* rest note */
+  .rest-note {
+    font-size: .8rem;
+    color: var(--accent2);
+    line-height: 1.6;
+    font-family: var(--mono);
+    padding: .5rem .75rem;
+    background: rgba(79,201,164,.07);
+    border-radius: 8px;
+    margin-bottom: .75rem;
+  }
+
+  /* revision */
+  .revision {
+    padding-top: .65rem;
+    border-top: 1px solid var(--border);
+  }
+  .rev-label {
+    font-size: .6rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--muted);
+    font-family: var(--mono);
+    margin-bottom: .35rem;
+  }
+  .rev-item {
+    font-size: .72rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    padding: .15rem 0;
+    line-height: 1.5;
+  }
+  .rev-item::before { content: '↩ '; color: var(--accent); }
+
+  /* checkbox progress per card */
+  .card-progress {
+    margin-top: .65rem;
+    height: 2px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .card-progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: var(--accent2);
+    transition: width .3s;
+  }
+
+  /* ── week divider ── */
+  .week-divider {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--border);
+    padding-top: .5rem;
+    font-size: .65rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="title-block">
+      <h1>50-Day <span>DSA</span> Plan</h1>
+      <p id="header-sub">John Gunji · IIT (ISM) Dhanbad · Summer 2026</p>
+    </div>
+    <div class="header-stats">
+      <div class="hstat">
+        <div class="hstat-val" id="stat-done">0</div>
+        <div class="hstat-label">solved today</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val" id="stat-total">0</div>
+        <div class="hstat-label">total checked</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">250</div>
+        <div class="hstat-label">target problems</div>
+      </div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" id="global-bar" style="width:0%"></div>
+    </div>
+    <div class="progress-label">
+      <span id="prog-left">0 / 250 problems checked</span>
+      <span id="prog-pct">0%</span>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <span class="controls-label">Filter</span>
+  <button class="pill active" onclick="filter('all',this)">All 50</button>
+  <button class="pill" onclick="filter('trees',this)">Trees</button>
+  <button class="pill" onclick="filter('graphs',this)">Graphs</button>
+  <button class="pill" onclick="filter('dp',this)">DP</button>
+  <button class="pill" onclick="filter('greedy',this)">Greedy</button>
+  <button class="pill" onclick="filter('backtrack',this)">Backtracking</button>
+  <button class="pill" onclick="filter('rest',this)">Rest days</button>
+  <button class="today-btn" onclick="scrollToToday()">Jump to Today ↓</button>
+</div>
+
+<div class="legend">
+  <div class="leg"><div class="leg-dot" style="background:#378ADD"></div>Trees</div>
+  <div class="leg"><div class="leg-dot" style="background:#7c6af7"></div>Graphs</div>
+  <div class="leg"><div class="leg-dot" style="background:#e8614f"></div>DP</div>
+  <div class="leg"><div class="leg-dot" style="background:#6ec97a"></div>Greedy</div>
+  <div class="leg"><div class="leg-dot" style="background:#f0a04b"></div>Backtracking</div>
+  <div class="leg"><div class="leg-dot" style="background:#4fc9a4"></div>Rest / revision</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const START = new Date('2026-05-10');
+
+const DAYS = [
+  // Day 1 - Trees: DFS, path problems
+  { tag:'trees', badge:'Trees',
+    videos:[
+      {label:'Binary Tree DFS — Recursive Template', url:'https://www.youtube.com/watch?v=OnSn2XEQ4MY', src:'NeetCode'},
+      {label:'Path Sum (Root to Leaf)', url:'https://www.youtube.com/watch?v=LSKQyOz_P8I', src:'NeetCode'},
+      {label:'Diameter of Binary Tree', url:'https://www.youtube.com/watch?v=bkxqA8Rfv04', src:'NeetCode'},
+    ],
+    solve:['113 – Path Sum II','129 – Sum Root to Leaf Numbers','257 – Binary Tree Paths','404 – Sum of Left Leaves','543 – Diameter of Binary Tree'],
+    rev:['94 – Inorder Traversal','104 – Max Depth','226 – Invert Tree'] },
+
+  // Day 2 - Trees: LCA, max path
+  { tag:'trees', badge:'Trees',
+    videos:[
+      {label:'LCA of Binary Tree', url:'https://www.youtube.com/watch?v=gs2LMfuOR9k', src:'NeetCode'},
+      {label:'Binary Tree Max Path Sum', url:'https://www.youtube.com/watch?v=Hr5cWUld4vU', src:'NeetCode'},
+      {label:'Path Sum III (Prefix Sum approach)', url:'https://www.youtube.com/watch?v=_OzQ-dCpxIU', src:'NeetCode'},
+    ],
+    solve:['437 – Path Sum III','687 – Longest Univalue Path','124 – Binary Tree Max Path Sum','236 – LCA of Binary Tree','235 – LCA of BST'],
+    rev:['112 – Path Sum','257 – Binary Tree Paths'] },
+
+  // Day 3 - BST operations
+  { tag:'trees', badge:'Trees',
+    videos:[
+      {label:'Validate BST', url:'https://www.youtube.com/watch?v=s6ATEkipzow', src:'NeetCode'},
+      {label:'BST Insert / Delete / Search', url:'https://www.youtube.com/watch?v=ZM-sV9zQPEU', src:'Striver TUF'},
+      {label:'Kth Smallest in BST', url:'https://www.youtube.com/watch?v=5LUXSvjmGCw', src:'NeetCode'},
+    ],
+    solve:['98 – Validate BST','230 – Kth Smallest in BST','700 – Search in BST','701 – Insert into BST','450 – Delete Node in BST'],
+    rev:['100 – Same Tree','101 – Symmetric Tree'] },
+
+  // Day 4 - BST: construction, range
+  { tag:'trees', badge:'Trees',
+    videos:[
+      {label:'Construct BST from Sorted Array', url:'https://www.youtube.com/watch?v=0K0uCMYq5ng', src:'NeetCode'},
+      {label:'Construct Tree from Preorder+Inorder', url:'https://www.youtube.com/watch?v=ihj4IQGZ2zc', src:'NeetCode'},
+      {label:'Level Order Traversal (BFS)', url:'https://www.youtube.com/watch?v=6ZnyEApgFYg', src:'NeetCode'},
+    ],
+    solve:['530 – Min Absolute Diff in BST','653 – Two Sum IV (BST)','938 – Range Sum of BST','108 – Sorted Array to BST','105 – Build Tree Pre+Inorder'],
+    rev:['102 – Level Order','199 – Right Side View'] },
+
+  // Day 5 - Tree construction & serialization
+  { tag:'trees', badge:'Trees',
+    videos:[
+      {label:'Serialize & Deserialize Binary Tree', url:'https://www.youtube.com/watch?v=u4JAi2JJhI8', src:'NeetCode'},
+      {label:'Subtree of Another Tree', url:'https://www.youtube.com/watch?v=E36O5SWp-LE', src:'NeetCode'},
+      {label:'Construct from Inorder + Postorder', url:'https://www.youtube.com/watch?v=vm63HuIU7kw', src:'Striver TUF'},
+    ],
+    solve:['106 – Build Tree In+Postorder','889 – Build Tree Pre+Postorder','297 – Serialize & Deserialize BT','572 – Subtree of Another Tree','652 – Find Duplicate Subtrees'],
+    rev:['236 – LCA','98 – Validate BST'] },
+
+  // Day 6 - Trees: advanced traversal
+  { tag:'trees', badge:'Trees',
+    videos:[
+      {label:'Vertical Order Traversal', url:'https://www.youtube.com/watch?v=8o-0CRL_ahg', src:'Striver TUF'},
+      {label:'All Nodes Distance K in Binary Tree', url:'https://www.youtube.com/watch?v=nPtARJ2cYrg', src:'NeetCode'},
+      {label:'Max Width of Binary Tree', url:'https://www.youtube.com/watch?v=FPzLE9nnLKo', src:'Striver TUF'},
+    ],
+    solve:['662 – Max Width of Binary Tree','863 – All Nodes Dist K in BT','987 – Vertical Order Traversal','979 – Distribute Coins in BT','951 – Flip Equivalent Binary Trees'],
+    rev:['105 – Construct from Pre+In','543 – Diameter'] },
+
+  { tag:'rest', badge:'Rest', isRest:true, restNote:'Rest day. Light review only — no new problems.', rev:['124 – Max Path Sum','297 – Serialize/Deserialize','437 – Path Sum III','652 – Duplicate Subtrees','863 – Dist K in Tree'] },
+
+  // Day 8 - Trees: BFS & complete trees
+  { tag:'trees', badge:'Trees',
+    videos:[
+      {label:'Count Complete Tree Nodes', url:'https://www.youtube.com/watch?v=4wPlA_InnGY', src:'NeetCode'},
+      {label:'Binary Tree Level Order (BFS patterns)', url:'https://www.youtube.com/watch?v=6ZnyEApgFYg', src:'NeetCode'},
+      {label:'Binary Tree Pruning', url:'https://www.youtube.com/watch?v=sDGeIBhPLQ4', src:'NeetCode'},
+    ],
+    solve:['814 – Binary Tree Pruning','872 – Leaf-Similar Trees','222 – Count Complete Tree Nodes','501 – Find Mode in BST','513 – Bottom Left Tree Value'],
+    rev:['987 – Vertical Order','662 – Max Width'] },
+
+  // Day 9 - Trees: N-ary & BST variants
+  { tag:'trees', badge:'Trees',
+    videos:[
+      {label:'N-ary Tree Max Depth', url:'https://www.youtube.com/watch?v=Qr7s3SLKmQU', src:'NeetCode'},
+      {label:'Find Largest Value in Each Row', url:'https://www.youtube.com/watch?v=IbNZ-x1I2IM', src:'Striver TUF'},
+      {label:'BST to Greater Sum Tree', url:'https://www.youtube.com/watch?v=7vVEJwVvAlI', src:'NeetCode'},
+    ],
+    solve:['515 – Largest Value Each Row','559 – Max Depth N-ary Tree','671 – Second Min Node in BT','783 – Min Dist BST Nodes','965 – Univalued Binary Tree'],
+    rev:['297 – Serialize again (timed)'] },
+
+  // Day 10 - Trees: BST operations
+  { tag:'trees', badge:'Trees',
+    videos:[
+      {label:'Convert BST to Greater Tree', url:'https://www.youtube.com/watch?v=7vVEJwVvAlI', src:'NeetCode'},
+      {label:'Trim a BST', url:'https://www.youtube.com/watch?v=jwt5mTjgW0U', src:'NeetCode'},
+      {label:'Merge Two Binary Trees', url:'https://www.youtube.com/watch?v=QHH6rIK3dDQ', src:'NeetCode'},
+    ],
+    solve:['993 – Cousins in BT','617 – Merge Two Binary Trees','538 – Convert BST to Greater Tree','669 – Trim a BST','700 – Search BST (recursive timed)'],
+    rev:['230 – Kth Smallest in BST','938 – Range Sum BST'] },
+
+  // Day 11 - Graphs: DFS/BFS intro, islands
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Graph DFS & BFS — Full Theory', url:'https://www.youtube.com/watch?v=M3KTWnTrU_c', src:'Striver TUF'},
+      {label:'Number of Islands', url:'https://www.youtube.com/watch?v=pV2kpPD66nE', src:'NeetCode'},
+      {label:'Number of Provinces (Connected Components)', url:'https://www.youtube.com/watch?v=UF3H2H5BqXA', src:'Striver TUF'},
+    ],
+    solve:['200 – Number of Islands','733 – Flood Fill','695 – Max Area of Island','547 – Number of Provinces','841 – Keys and Rooms'],
+    rev:['Trees: 124 – Max Path Sum','Trees: 297 – Serialize (timed)'] },
+
+  // Day 12 - Graphs: multi-source BFS
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Multi-source BFS — Rotting Oranges', url:'https://www.youtube.com/watch?v=y704fEOx0s0', src:'NeetCode'},
+      {label:'Pacific Atlantic Water Flow', url:'https://www.youtube.com/watch?v=s-VkcjyqSME', src:'NeetCode'},
+      {label:'All Paths from Source to Target (DFS)', url:'https://www.youtube.com/watch?v=DjymbyzdKG8', src:'NeetCode'},
+    ],
+    solve:['797 – All Paths Source to Target','1971 – Find if Path Exists','417 – Pacific Atlantic Water Flow','994 – Rotting Oranges','1020 – Number of Enclaves'],
+    rev:['200 – Islands (BFS version)','695 – Max Area'] },
+
+  // Day 13 - Graphs: matrix BFS
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Surrounded Regions (Boundary DFS)', url:'https://www.youtube.com/watch?v=9z2BunfoZ5Y', src:'NeetCode'},
+      {label:'Shortest Bridge (BFS + DFS combo)', url:'https://www.youtube.com/watch?v=gkINMjSiSe4', src:'NeetCode'},
+      {label:'Walls and Gates (Multi-source BFS)', url:'https://www.youtube.com/watch?v=e69C6xhiSQE', src:'NeetCode'},
+    ],
+    solve:['286 – Walls and Gates','1162 – As Far from Land','934 – Shortest Bridge','1254 – Closed Islands','130 – Surrounded Regions'],
+    rev:['994 – Rotting Oranges','417 – Pacific Atlantic'] },
+
+  { tag:'rest', badge:'Rest', isRest:true, restNote:'Rest day — consolidate graphs BFS/DFS basics before matrix problems.', rev:['547 – Provinces','200 – Islands','994 – Rotting Oranges','130 – Surrounded Regions','286 – Walls & Gates'] },
+
+  // Day 15 - Graphs: BFS shortest path
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'0-1 BFS & Multi-state BFS — Theory', url:'https://www.youtube.com/watch?v=0ytpZyiZFhA', src:'Striver TUF'},
+      {label:'01 Matrix (BFS distance)', url:'https://www.youtube.com/watch?v=edXdVwkYHF8', src:'NeetCode'},
+      {label:'Path With Minimum Effort (Dijkstra/BFS)', url:'https://www.youtube.com/watch?v=XQlTxxArNAc', src:'NeetCode'},
+    ],
+    solve:['542 – 01 Matrix','1091 – Shortest Path Binary Matrix','1926 – Nearest Exit from Maze','1293 – Shortest Path w/ Obstacles','1631 – Path With Min Effort'],
+    rev:['BFS template — write from scratch'] },
+
+  // Day 16 - Graphs: Topological Sort ⭐ YOUR CURRENT BLOCKER
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Topological Sort — Kahn\'s Algorithm (BFS)', url:'https://www.youtube.com/watch?v=73sneFXuTEg', src:'Striver TUF'},
+      {label:'Topological Sort — DFS based', url:'https://www.youtube.com/watch?v=Yh6EFazXipA', src:'Striver TUF'},
+      {label:'Course Schedule I & II (Topo Sort)', url:'https://www.youtube.com/watch?v=EgI5nU9etnU', src:'NeetCode'},
+      {label:'Detect Cycle in Directed Graph', url:'https://www.youtube.com/watch?v=9twcmtQj4DU', src:'Striver TUF'},
+    ],
+    solve:['207 – Course Schedule','210 – Course Schedule II','802 – Find Eventual Safe States','269 – Alien Dictionary','1462 – Course Schedule IV'],
+    rev:['934 – Shortest Bridge','1631 – Min Effort'] },
+
+  // Day 17 - Graphs: Union Find
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Union Find (Disjoint Set) — Full Theory', url:'https://www.youtube.com/watch?v=aBxjDBC4M1U', src:'Striver TUF'},
+      {label:'Redundant Connection (Union Find)', url:'https://www.youtube.com/watch?v=FXWRE67PLL0', src:'NeetCode'},
+      {label:'Accounts Merge (Union Find / DFS)', url:'https://www.youtube.com/watch?v=FGRmia3MA3o', src:'NeetCode'},
+      {label:'Min Cost to Connect Points (Prim\'s MST)', url:'https://www.youtube.com/watch?v=f7JOBJIC-NA', src:'NeetCode'},
+    ],
+    solve:['684 – Redundant Connection','1319 – Make Network Connected','721 – Accounts Merge','947 – Most Stones Removed','1584 – Min Cost Connect Points'],
+    rev:['207 – Course Schedule','210 – Topo sort'] },
+
+  // Day 18 - Graphs: Union Find continued
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Connected Components (Union Find)', url:'https://www.youtube.com/watch?v=8f1XPm4WOkc', src:'NeetCode'},
+      {label:'Network Delay Time (Dijkstra)', url:'https://www.youtube.com/watch?v=lys1l3W3v5Y', src:'NeetCode'},
+      {label:'Satisfiability of Equality Equations', url:'https://www.youtube.com/watch?v=IjgiLfI4I3E', src:'NeetCode'},
+    ],
+    solve:['990 – Satisfiability of Equality','323 – Connected Components','1101 – Everyone Become Friends','959 – Regions Cut By Slashes','743 – Network Delay Time'],
+    rev:['684 – Redundant Connection','721 – Accounts Merge'] },
+
+  // Day 19 - Graphs: Dijkstra variants ⭐ TODAY
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Dijkstra\'s Algorithm — Full Theory + Code', url:'https://www.youtube.com/watch?v=V6H1qAeB-l4', src:'Striver TUF'},
+      {label:'Bellman-Ford Algorithm', url:'https://www.youtube.com/watch?v=lyw4FaxrwHg', src:'Striver TUF'},
+      {label:'Cheapest Flights K Stops (Bellman-Ford)', url:'https://www.youtube.com/watch?v=5eIK3zUdYmE', src:'NeetCode'},
+      {label:'Path with Max Probability (Dijkstra)', url:'https://www.youtube.com/watch?v=mNxWrj4LFrY', src:'NeetCode'},
+    ],
+    solve:['1514 – Max Probability Path','787 – Cheapest Flights K Stops','1334 – City Smallest Neighbors','778 – Swim in Rising Water','1368 – Min Cost Valid Path in Grid'],
+    rev:['743 – Dijkstra template write out','Topo sort template write out'] },
+
+  // Day 20 - Graphs: advanced (Tarjan, Euler)
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Critical Connections — Tarjan\'s Bridge Finding', url:'https://www.youtube.com/watch?v=qrAub5z8FeA', src:'NeetCode'},
+      {label:'Reconstruct Itinerary (Eulerian Path)', url:'https://www.youtube.com/watch?v=ZyB_gQ8vqGA', src:'NeetCode'},
+      {label:'Clone Graph', url:'https://www.youtube.com/watch?v=mQeF6bN8hMk', src:'NeetCode'},
+    ],
+    solve:['133 – Clone Graph','399 – Evaluate Division','332 – Reconstruct Itinerary','1192 – Critical Connections','847 – Shortest Path All Nodes'],
+    rev:['787 – Cheapest Flights','1192 – Critical Connections (Tarjan)'] },
+
+  { tag:'rest', badge:'Rest', isRest:true, restNote:'Rest day — Graphs are heavy. Let Union Find and Dijkstra settle.', rev:['Dry-run: 207 – Course Schedule','Dry-run: 743 – Network Delay','1584 – Min Cost Connect Points','847 – Shortest Path All Nodes'] },
+
+  // Day 22 - Graphs: Bipartite
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Bipartite Graph Check (BFS/DFS)', url:'https://www.youtube.com/watch?v=nbgaEu-pvkU', src:'Striver TUF'},
+      {label:'Is Graph Bipartite?', url:'https://www.youtube.com/watch?v=mev55LTubBY', src:'NeetCode'},
+      {label:'Possible Bipartition', url:'https://www.youtube.com/watch?v=9pHPsJdH6tA', src:'NeetCode'},
+    ],
+    solve:['1129 – Shortest Path Alt Colors','886 – Possible Bipartition','785 – Is Graph Bipartite','1557 – Min Vertices Reach All','1615 – Maximal Network Rank'],
+    rev:['200 – Islands','684 – Redundant Connection'] },
+
+  // Day 23 - Graphs: tree problems on graphs
+  { tag:'graphs', badge:'Graphs',
+    videos:[
+      {label:'Reorder Routes to Make All Paths Lead to Zero', url:'https://www.youtube.com/watch?v=RG0KNTu0Fy4', src:'NeetCode'},
+      {label:'Time to Inform All Employees (BFS)', url:'https://www.youtube.com/watch?v=UxH3uYMfftc', src:'NeetCode'},
+      {label:'Ways to Arrive at Destination (Dijkstra + DP)', url:'https://www.youtube.com/watch?v=_-0mx0SmYxA', src:'NeetCode'},
+    ],
+    solve:['1443 – Apples in Tree','1466 – Reorder Routes','1376 – Time to Inform Employees','1976 – Ways to Arrive at Destination','505 – Maze II'],
+    rev:['1631 – Min Effort','1514 – Max Probability'] },
+
+  // Day 24 - DP: 1D intro
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Dynamic Programming — Full Intro & Memoization', url:'https://www.youtube.com/watch?v=oBt53YbR9Kk', src:'Striver TUF'},
+      {label:'Climbing Stairs / Fibonacci DP', url:'https://www.youtube.com/watch?v=Y0lT9Fck7qI', src:'NeetCode'},
+      {label:'House Robber', url:'https://www.youtube.com/watch?v=73r3KWiEvyk', src:'NeetCode'},
+    ],
+    solve:['70 – Climbing Stairs','746 – Min Cost Climbing Stairs','198 – House Robber','213 – House Robber II','509 – Fibonacci Number'],
+    rev:['Graphs: 207 – Course Schedule (timed)','Graphs: 1976 – Ways to Arrive'] },
+
+  // Day 25 - DP: Kadane, Jump Game
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Maximum Subarray — Kadane\'s Algorithm', url:'https://www.youtube.com/watch?v=5WZl3MMT0Eg', src:'NeetCode'},
+      {label:'Maximum Product Subarray', url:'https://www.youtube.com/watch?v=lXVy6YWFcRM', src:'NeetCode'},
+      {label:'Jump Game (Greedy/DP)', url:'https://www.youtube.com/watch?v=Yan0cv2cLy8', src:'NeetCode'},
+    ],
+    solve:['1137 – N-th Tribonacci','53 – Maximum Subarray','152 – Max Product Subarray','740 – Delete and Earn','55 – Jump Game'],
+    rev:['198 – House Robber','53 – Kadane by hand'] },
+
+  // Day 26 - DP: Coin Change, Decode Ways
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Coin Change (Bottom-up DP)', url:'https://www.youtube.com/watch?v=H9bfqozjoqs', src:'NeetCode'},
+      {label:'Decode Ways', url:'https://www.youtube.com/watch?v=6aEyTjOwlJU', src:'NeetCode'},
+      {label:'Perfect Squares (BFS/DP)', url:'https://www.youtube.com/watch?v=HLZLwjzIVGo', src:'NeetCode'},
+    ],
+    solve:['45 – Jump Game II','91 – Decode Ways','322 – Coin Change','279 – Perfect Squares','343 – Integer Break'],
+    rev:['55 – Jump Game','91 – Decode Ways'] },
+
+  // Day 27 - DP: LIS, Knapsack
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Longest Increasing Subsequence (LIS) — O(n²) & O(n log n)', url:'https://www.youtube.com/watch?v=cjWnW0hdF1Y', src:'NeetCode'},
+      {label:'Partition Equal Subset Sum (0/1 Knapsack)', url:'https://www.youtube.com/watch?v=IsvocB5BJhw', src:'NeetCode'},
+      {label:'Russian Doll Envelopes (LIS variant)', url:'https://www.youtube.com/watch?v=Q4zHb-Swx0o', src:'NeetCode'},
+    ],
+    solve:['300 – LIS','673 – Number of LIS','646 – Max Length Pair Chain','354 – Russian Doll Envelopes','416 – Partition Equal Subset Sum'],
+    rev:['322 – Coin Change','300 – LIS (both approaches)'] },
+
+  { tag:'rest', badge:'Rest', isRest:true, restNote:'Rest day — DP states need time to solidify. No new problems today.', rev:['Explain state for 70, 198, 300, 416, 322','Write recurrences from memory for all 5'] },
+
+  // Day 29 - DP: Knapsack variants
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Target Sum (0/1 Knapsack DP)', url:'https://www.youtube.com/watch?v=g0npyaQtAQM', src:'NeetCode'},
+      {label:'Coin Change II (Unbounded Knapsack)', url:'https://www.youtube.com/watch?v=Mjy4hd2xgrs', src:'NeetCode'},
+      {label:'Word Break (DP)', url:'https://www.youtube.com/watch?v=Sx9NNgInc3A', src:'NeetCode'},
+    ],
+    solve:['494 – Target Sum','518 – Coin Change II','377 – Combination Sum IV','139 – Word Break','120 – Triangle'],
+    rev:['416 – Partition Subset','354 – Russian Doll'] },
+
+  // Day 30 - DP: Grid DP
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Unique Paths (Grid DP)', url:'https://www.youtube.com/watch?v=IlEsdxuD4lY', src:'NeetCode'},
+      {label:'Min Path Sum (Grid DP)', url:'https://www.youtube.com/watch?v=pGMsrvt0fpk', src:'NeetCode'},
+      {label:'Maximal Square', url:'https://www.youtube.com/watch?v=6X7Ha2PrDmM', src:'NeetCode'},
+    ],
+    solve:['64 – Min Path Sum','62 – Unique Paths','63 – Unique Paths II','931 – Min Falling Path Sum','221 – Maximal Square'],
+    rev:['62 – Unique Paths','64 – Min Path Sum'] },
+
+  // Day 31 - DP: String DP (LCS, Edit Distance)
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Longest Common Subsequence (LCS)', url:'https://www.youtube.com/watch?v=Ua0GhsJSlWM', src:'NeetCode'},
+      {label:'Edit Distance', url:'https://www.youtube.com/watch?v=XYi2-LPrwm4', src:'NeetCode'},
+      {label:'Longest Palindromic Subsequence', url:'https://www.youtube.com/watch?v=bUr8cNWI09Q', src:'NeetCode'},
+    ],
+    solve:['1143 – LCS','583 – Delete Op for Two Strings','72 – Edit Distance','516 – Longest Palindromic Subseq','647 – Palindromic Substrings'],
+    rev:['221 – Maximal Square','1143 – LCS'] },
+
+  // Day 32 - DP: Palindrome & Subsequence DP
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Longest Palindromic Substring (Expand Around Center)', url:'https://www.youtube.com/watch?v=XYQecbcd6_c', src:'NeetCode'},
+      {label:'Distinct Subsequences', url:'https://www.youtube.com/watch?v=-RDzMJ33nx8', src:'NeetCode'},
+      {label:'Interleaving String', url:'https://www.youtube.com/watch?v=3Rw3p9LrgvE', src:'NeetCode'},
+    ],
+    solve:['1312 – Min Insertions Palindrome','115 – Distinct Subsequences','97 – Interleaving String','5 – Longest Palindromic Substring','132 – Palindrome Partitioning II'],
+    rev:['72 – Edit Distance','5 – Palindromic Substring'] },
+
+  // Day 33 - DP: Stock problems
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Best Time to Buy Stock — All 6 Variants Explained', url:'https://www.youtube.com/watch?v=oDhu5uGq_ic', src:'NeetCode'},
+      {label:'Stock with Cooldown (State Machine DP)', url:'https://www.youtube.com/watch?v=I7j0F7AHpb8', src:'NeetCode'},
+      {label:'Stock with Transaction Fee', url:'https://www.youtube.com/watch?v=pTQB9wbIpfU', src:'NeetCode'},
+    ],
+    solve:['309 – Stock w/ Cooldown','714 – Stock w/ Fee','122 – Stock II','123 – Stock III','188 – Stock IV'],
+    rev:['309 – Stock Cooldown state machine','All 5 stock problems — pattern grid'] },
+
+  // Day 34 - DP: Misc DP
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Jump Game VI (Monotonic Deque DP)', url:'https://www.youtube.com/watch?v=JtCBW_oUJ1Q', src:'NeetCode'},
+      {label:'Partition Array for Maximum Sum', url:'https://www.youtube.com/watch?v=bQ4mCCOz2sE', src:'NeetCode'},
+      {label:'Stone Game (Game Theory DP)', url:'https://www.youtube.com/watch?v=WrdAkj1CSCo', src:'NeetCode'},
+    ],
+    solve:['790 – Domino Tromino Tiling','837 – New 21 Game','1043 – Partition Array Max Sum','1696 – Jump Game VI','1406 – Stone Game III'],
+    rev:['115 – Distinct Subseq','309 – Stock Cooldown'] },
+
+  { tag:'rest', badge:'Rest', isRest:true, restNote:'Rest day — string DP and state machines are the hardest. Let them settle.', rev:['Dry-run 72 – Edit Distance from memory','Dry-run 1143 – LCS from memory','Explain stock state machine (122/123/188/309)'] },
+
+  // Day 36 - DP: Game theory
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Predict the Winner / Stone Game (Minimax DP)', url:'https://www.youtube.com/watch?v=WrdAkj1CSCo', src:'NeetCode'},
+      {label:'Knight Probability in Chessboard', url:'https://www.youtube.com/watch?v=iBnNTpxMVPk', src:'NeetCode'},
+      {label:'Profitable Schemes (Multi-dim Knapsack)', url:'https://www.youtube.com/watch?v=ogQIdYc-WVE', src:'NeetCode'},
+    ],
+    solve:['877 – Stone Game','486 – Predict the Winner','688 – Knight Probability','1220 – Count Vowels Permutation','879 – Profitable Schemes'],
+    rev:['877 – Stone Game','139 – Word Break'] },
+
+  // Day 37 - DP: Hard 2D DP
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Solving Questions with Brainpower', url:'https://www.youtube.com/watch?v=B_UXf8NNRJY', src:'NeetCode'},
+      {label:'Max Points with Costs (DP optimization)', url:'https://www.youtube.com/watch?v=xJRiFUOjdDM', src:'NeetCode'},
+      {label:'LIS revisited for hard problems', url:'https://www.youtube.com/watch?v=cjWnW0hdF1Y', src:'NeetCode'},
+    ],
+    solve:['1770 – Max Score Multiplication','1937 – Max Points with Cost','2140 – Solving Questions w/ Brainpower','2466 – Count Ways Build Strings','2684 – Max Moves in Grid'],
+    rev:['300 – LIS again (timed ≤15 min)','322 – Coin Change again'] },
+
+  // Day 38 - DP: Interval DP
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Burst Balloons (Interval DP)', url:'https://www.youtube.com/watch?v=VFskby7lUbw', src:'NeetCode'},
+      {label:'Minimum Cost to Cut a Stick (Interval DP)', url:'https://www.youtube.com/watch?v=xwomavsC86c', src:'NeetCode'},
+      {label:'Interval DP — Theory & Template', url:'https://www.youtube.com/watch?v=Hdr7TjKNWMo', src:'Striver TUF'},
+    ],
+    solve:['312 – Burst Balloons','1547 – Min Cost to Cut Stick','1039 – Min Score Triangulation','1130 – Min Cost Tree Leaf Values','664 – Strange Printer'],
+    rev:['312 – Burst Balloons (interval DP logic)'] },
+
+  // Day 39 - DP: Regex & hard string DP
+  { tag:'dp', badge:'DP',
+    videos:[
+      {label:'Regular Expression Matching (Hard DP)', url:'https://www.youtube.com/watch?v=HAA8mgxlov8', src:'NeetCode'},
+      {label:'Wildcard Matching', url:'https://www.youtube.com/watch?v=3ZDZ-N0EPV0', src:'NeetCode'},
+      {label:'Frog Jump (Variable Jump DP)', url:'https://www.youtube.com/watch?v=Uh57v7LobuI', src:'NeetCode'},
+    ],
+    solve:['10 – Regular Expression Matching','44 – Wildcard Matching','87 – Scramble String','403 – Frog Jump','472 – Concatenated Words'],
+    rev:['72 – Edit Distance','10 – Regex Matching'] },
+
+  // Day 40 - Greedy: intro
+  { tag:'greedy', badge:'Greedy',
+    videos:[
+      {label:'Greedy Algorithms — When & Why They Work', url:'https://www.youtube.com/watch?v=HzeK7g8cD0Y', src:'Striver TUF'},
+      {label:'Jump Game I & II (Greedy)', url:'https://www.youtube.com/watch?v=Yan0cv2cLy8', src:'NeetCode'},
+      {label:'Gas Station (Greedy)', url:'https://www.youtube.com/watch?v=lJwbPZGo05A', src:'NeetCode'},
+    ],
+    solve:['55 – Jump Game','45 – Jump Game II','122 – Best Time Stock II','134 – Gas Station','135 – Candy'],
+    rev:['DP: 300 – LIS (explain aloud)','DP: 1143 – LCS (explain aloud)'] },
+
+  // Day 41 - Greedy: sorting-based
+  { tag:'greedy', badge:'Greedy',
+    videos:[
+      {label:'Candy (Two-pass Greedy)', url:'https://www.youtube.com/watch?v=prop1Greedy', src:'NeetCode'},
+      {label:'Boats to Save People', url:'https://www.youtube.com/watch?v=XbaxWuHIWUs', src:'NeetCode'},
+      {label:'Assign Cookies / Lemonade Change', url:'https://www.youtube.com/watch?v=HzeK7g8cD0Y', src:'Striver TUF'},
+    ],
+    solve:['455 – Assign Cookies','860 – Lemonade Change','881 – Boats to Save People','948 – Bag of Tokens','1710 – Max Units on Truck'],
+    rev:['134 – Gas Station','135 – Candy'] },
+
+  { tag:'rest', badge:'Rest', isRest:true, restNote:'Rest day — switching from DP to Greedy mindset. Greedy = sort + pick, no recurrence.', rev:['56 – Merge Intervals (trace on paper)','435 – Non-overlapping Intervals (trace)','452 – Arrows logic'] },
+
+  // Day 43 - Greedy: Intervals
+  { tag:'greedy', badge:'Greedy',
+    videos:[
+      {label:'Merge Intervals', url:'https://www.youtube.com/watch?v=44H3cEC2fFM', src:'NeetCode'},
+      {label:'Non-overlapping Intervals (Remove Min)', url:'https://www.youtube.com/watch?v=nONCGxWoUfM', src:'NeetCode'},
+      {label:'Minimum Arrows to Burst Balloons', url:'https://www.youtube.com/watch?v=lPmkKnvNPrw', src:'NeetCode'},
+    ],
+    solve:['56 – Merge Intervals','57 – Insert Interval','435 – Non-overlapping Intervals','452 – Min Arrows Burst Balloons','253 – Meeting Rooms II'],
+    rev:['881 – Boats','948 – Bag of Tokens'] },
+
+  // Day 44 - Greedy: interval & partition
+  { tag:'greedy', badge:'Greedy',
+    videos:[
+      {label:'Partition Labels (Greedy)', url:'https://www.youtube.com/watch?v=B7m8UmZE-vw', src:'NeetCode'},
+      {label:'Meeting Rooms II (Min Heap / Greedy)', url:'https://www.youtube.com/watch?v=FdzJmTx9fHg', src:'NeetCode'},
+      {label:'Video Stitching (Greedy interval cover)', url:'https://www.youtube.com/watch?v=A_uUjBHpUvU', src:'NeetCode'},
+    ],
+    solve:['252 – Meeting Rooms','646 – Max Length Pair Chain','763 – Partition Labels','1024 – Video Stitching','1288 – Remove Covered Intervals'],
+    rev:['56 – Merge Intervals','763 – Partition Labels'] },
+
+  // Day 45 - Greedy: sorting tricks
+  { tag:'greedy', badge:'Greedy',
+    videos:[
+      {label:'Queue Reconstruction by Height', url:'https://www.youtube.com/watch?v=1oBkP2YJdLQ', src:'NeetCode'},
+      {label:'Largest Number (Custom Sort Greedy)', url:'https://www.youtube.com/watch?v=WDx6Y4i4xJ8', src:'NeetCode'},
+      {label:'Car Fleet (Monotonic Stack Greedy)', url:'https://www.youtube.com/watch?v=Pr6T-3yB9RM', src:'NeetCode'},
+    ],
+    solve:['406 – Queue Reconstruction by Height','179 – Largest Number','853 – Car Fleet','826 – Most Profit Assigning Work','1053 – Prev Permutation One Swap'],
+    rev:['435 – Non-overlapping','253 – Meeting Rooms II'] },
+
+  // Day 46 - Greedy: frequency-based
+  { tag:'greedy', badge:'Greedy',
+    videos:[
+      {label:'Minimum Deletions to Make Char Frequencies Unique', url:'https://www.youtube.com/watch?v=FHQi0PxMgYk', src:'NeetCode'},
+      {label:'Task Scheduler (Greedy + Math)', url:'https://www.youtube.com/watch?v=s8p8ukTyA2I', src:'NeetCode'},
+      {label:'Reorganize String', url:'https://www.youtube.com/watch?v=2g_b1aYTHeg', src:'NeetCode'},
+    ],
+    solve:['1338 – Reduce Array to Half','1481 – Least Unique After K Removals','1647 – Min Deletions Char Freq','1833 – Max Ice Cream Bars','1846 – Max Element After Rearranging'],
+    rev:['179 – Largest Number','406 – Queue Reconstruction'] },
+
+  // Day 47 - Greedy: heap-based greedy
+  { tag:'greedy', badge:'Greedy',
+    videos:[
+      {label:'Task Scheduler (Greedy)', url:'https://www.youtube.com/watch?v=s8p8ukTyA2I', src:'NeetCode'},
+      {label:'Reorganize String (Max Heap Greedy)', url:'https://www.youtube.com/watch?v=2g_b1aYTHeg', src:'NeetCode'},
+      {label:'Valid Parenthesis String (Greedy range)', url:'https://www.youtube.com/watch?v=QhPdNS143Qg', src:'NeetCode'},
+    ],
+    solve:['621 – Task Scheduler','649 – Dota2 Senate','678 – Valid Parenthesis String','767 – Reorganize String','1405 – Longest Happy String'],
+    rev:['621 – Task Scheduler','678 – Valid Parenthesis String'] },
+
+  // Day 48 - Backtracking intro
+  { tag:'backtrack', badge:'Backtrack',
+    videos:[
+      {label:'Backtracking — Full Theory & Template', url:'https://www.youtube.com/watch?v=A80YzvNwqXA', src:'Striver TUF'},
+      {label:'Subsets I & II', url:'https://www.youtube.com/watch?v=REOH22Xwdkk', src:'NeetCode'},
+      {label:'Permutations I & II', url:'https://www.youtube.com/watch?v=s7AvT7cGdSo', src:'NeetCode'},
+    ],
+    solve:['46 – Permutations','47 – Permutations II','77 – Combinations','78 – Subsets','90 – Subsets II'],
+    rev:['Greedy: 56 – Merge Intervals (timed)','Greedy: 435 – Non-overlapping (timed)'] },
+
+  // Day 49 - Backtracking: Combination Sum
+  { tag:'backtrack', badge:'Backtrack',
+    videos:[
+      {label:'Combination Sum I & II (Backtracking)', url:'https://www.youtube.com/watch?v=GBKI9VSKdGg', src:'NeetCode'},
+      {label:'Generate Parentheses (Backtracking)', url:'https://www.youtube.com/watch?v=s9fokUqJ76A', src:'NeetCode'},
+      {label:'Letter Combinations of Phone Number', url:'https://www.youtube.com/watch?v=0snEunUacZY', src:'NeetCode'},
+    ],
+    solve:['39 – Combination Sum','40 – Combination Sum II','216 – Combination Sum III','17 – Letter Combinations Phone','22 – Generate Parentheses'],
+    rev:['46 – Permutations','78 – Subsets'] },
+
+  { tag:'rest', badge:'Rest', isRest:true, restNote:'Day 50 — Final mock revision. Timed speed-run of landmarks from every stage.', rev:['198 – House Robber (5 min)','200 – Islands (8 min)','300 – LIS (10 min)','56 – Merge Intervals (8 min)','46 – Permutations (10 min)','297 – Serialize BT (15 min)'] },
+];
+
+const DAYS_OF_WEEK = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function getDate(dayIndex) {
+  const d = new Date(START);
+  d.setDate(d.getDate() + dayIndex);
+  return d;
+}
+
+function formatDate(d) {
+  return `${DAYS_OF_WEEK[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function shortDate(d) {
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}`;
+}
+
+const STATE_KEY = 'dsa50_checks_v2';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STATE_KEY)) || {}; } catch { return {}; }
+}
+
+function saveState(s) {
+  localStorage.setItem(STATE_KEY, JSON.stringify(s));
+}
+
+let state = loadState();
+const today = new Date();
+today.setHours(0,0,0,0);
+
+function isToday(d) { const x = new Date(d); x.setHours(0,0,0,0); return x.getTime() === today.getTime(); }
+function isPast(d) { const x = new Date(d); x.setHours(0,0,0,0); return x.getTime() < today.getTime(); }
+
+function toggleCheck(dayIdx, probIdx) {
+  const key = `${dayIdx}_${probIdx}`;
+  state[key] = !state[key];
+  saveState(state);
+  renderStats();
+  updateCard(dayIdx);
+}
+
+function updateCard(dayIdx) {
+  const card = document.getElementById(`card-${dayIdx}`);
+  if (!card) return;
+  const day = DAYS[dayIdx];
+  if (day.isRest) return;
+  const total = day.solve.length;
+  const done = day.solve.filter((_,i) => state[`${dayIdx}_${i}`]).length;
+  const fill = card.querySelector('.card-progress-fill');
+  if (fill) fill.style.width = (done/total*100) + '%';
+  day.solve.forEach((_,i) => {
+    const item = card.querySelector(`[data-prob="${dayIdx}_${i}"]`);
+    if (!item) return;
+    const chk = item.querySelector('.check');
+    if (state[`${dayIdx}_${i}`]) {
+      item.classList.add('done');
+      chk.textContent = '✓';
+    } else {
+      item.classList.remove('done');
+      chk.textContent = '';
+    }
+  });
+}
+
+function renderStats() {
+  let total = 0;
+  DAYS.forEach((day, di) => {
+    if (day.isRest) return;
+    day.solve.forEach((_,pi) => { if (state[`${di}_${pi}`]) total++; });
+  });
+
+  // today's count
+  const todayIdx = DAYS.findIndex((_,i) => isToday(getDate(i)));
+  let todayDone = 0;
+  if (todayIdx >= 0) {
+    DAYS[todayIdx].solve && DAYS[todayIdx].solve.forEach((_,pi) => { if (state[`${todayIdx}_${pi}`]) todayDone++; });
+  }
+
+  document.getElementById('stat-done').textContent = todayDone;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('global-bar').style.width = Math.min(100, total/250*100) + '%';
+  document.getElementById('prog-left').textContent = `${total} / 250 problems checked`;
+  document.getElementById('prog-pct').textContent = Math.round(total/250*100) + '%';
+}
+
+function buildGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  let week = 0;
+  DAYS.forEach((day, i) => {
+    const date = getDate(i);
+    const w = Math.floor(i / 7);
+    if (w !== week) {
+      week = w;
+      const divider = document.createElement('div');
+      divider.className = 'week-divider';
+      const wStart = getDate(w*7);
+      const wEnd = getDate(Math.min(w*7+6, 49));
+      divider.textContent = `Week ${w+1} — ${shortDate(wStart)} to ${shortDate(wEnd)}`;
+      grid.appendChild(divider);
+    }
+
+    const card = document.createElement('div');
+    card.id = `card-${i}`;
+    card.className = `card ${day.tag}`;
+    if (isToday(date)) card.classList.add('today-card');
+    else if (isPast(date)) card.classList.add('past');
+
+    const badgeClass = `badge-${day.tag}`;
+    const total = day.solve ? day.solve.length : 0;
+    const done = day.solve ? day.solve.filter((_,pi) => state[`${i}_${pi}`]).length : 0;
+
+    let html = `<div class="card-top">
+      <div class="day-info">
+        <div class="day-num">Day ${i+1}</div>
+        <div class="day-date">${shortDate(date)}</div>
+        <div class="day-weekday">${DAYS_OF_WEEK[date.getDay()]}</div>
+      </div>
+      <span class="badge ${badgeClass}">${day.badge}</span>
+    </div>`;
+
+    if (day.isRest) {
+      html += `<div class="rest-note">${day.restNote}</div>`;
+    } else {
+      html += `<div class="problems">`;
+      day.solve.forEach((p, pi) => {
+        const checked = state[`${i}_${pi}`] || false;
+        html += `<div class="prob-item${checked?' done':''}" data-prob="${i}_${pi}" onclick="toggleCheck(${i},${pi})">
+          <span class="check">${checked?'✓':''}</span>${p}</div>`;
+      });
+      html += `</div>`;
+      html += `<div class="card-progress"><div class="card-progress-fill" style="width:${total?done/total*100:0}%"></div></div>`;
+    }
+
+    if (day.videos && day.videos.length) {
+      const vid_id = `vids-${i}`;
+      html += `<div class="videos-section">
+        <button class="videos-toggle" onclick="toggleVids('${vid_id}',this)">
+          <span class="arrow">▶</span> Watch first (${day.videos.length} videos)
+        </button>
+        <div class="videos-list" id="${vid_id}">`;
+      day.videos.forEach(v => {
+        html += `<a class="vid-link" href="${v.url}" target="_blank" rel="noopener">
+          <span class="vid-icon">▶</span>
+          <span class="vid-label">${v.label}</span>
+          <span class="vid-src">${v.src}</span>
+        </a>`;
+      });
+      html += `</div></div>`;
+    }
+
+    if (day.rev && day.rev.length) {
+      html += `<div class="revision"><div class="rev-label">Revise tonight</div>`;
+      day.rev.forEach(r => { html += `<div class="rev-item">${r}</div>`; });
+      html += `</div>`;
+    }
+
+    card.innerHTML = html;
+    grid.appendChild(card);
+  });
+}
+
+function filter(tag, btn) {
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => {
+    c.classList.toggle('hidden', tag !== 'all' && !c.classList.contains(tag));
+  });
+  document.querySelectorAll('.week-divider').forEach(d => d.classList.remove('hidden'));
+}
+
+function scrollToToday() {
+  const todayCard = document.querySelector('.today-card');
+  if (todayCard) todayCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function toggleVids(id, btn) {
+  const list = document.getElementById(id);
+  const open = list.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+
+buildGrid();
+renderStats();
+
+// update header sub with date range
+const endDate = getDate(49);
+document.getElementById('header-sub').textContent =
+  `John Gunji · IIT (ISM) Dhanbad · ${shortDate(START)} – ${shortDate(endDate)} ${endDate.getFullYear()}`;
+</script>
+</body>
+</html>
